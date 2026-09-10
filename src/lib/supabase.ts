@@ -1,12 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl =
-  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) ||
-  'https://ddmtelnlbctcumumxyln.supabase.co';
+/**
+ * VERIXA uses only the new Supabase project configured through environment variables.
+ * No Supabase project URL or key is hard-coded in the source code.
+ */
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const supabasePublishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined;
 
-const supabasePublishableKey =
-  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY) ||
-  'sb_publishable_YH2R0q4oyhZNv_25aaPypg_82a3CPOj';
+if (!supabaseUrl || !supabasePublishableKey) {
+  throw new Error(
+    'VERIXA Supabase configuration is missing. Set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.'
+  );
+}
 
 export { supabaseUrl, supabasePublishableKey };
 
